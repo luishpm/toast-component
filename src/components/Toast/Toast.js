@@ -7,16 +7,16 @@ import VisuallyHidden from '../VisuallyHidden';
 
 import styles from './Toast.module.css';
 
-function Toast({name, icon: Icon, children, onClose}) {
+function Toast({toastId, variant, icon: Icon, children, onCloseToast}) {
   return (
-      <div className={`${styles.toast} ${styles[name]}`}>
+      <div className={`${styles.toast} ${styles[variant]}`}>
         <div className={styles.iconContainer}>
           <Icon size={24}/>
         </div>
         <p className={styles.content}>
           {children}
         </p>
-        <button className={styles.closeButton} onClick={() => onClose()}>
+        <button className={styles.closeButton} onClick={() => onCloseToast(toastId)}>
           <X size={24}/>
           <VisuallyHidden>Dismiss message</VisuallyHidden>
         </button>
