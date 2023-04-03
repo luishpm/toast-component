@@ -8,7 +8,7 @@ function ToastProvider({children}) {
 
   const closeToast = React.useCallback((idToRemove) => {
     const newToasts = toasts.filter((toast) => toast.id !== idToRemove)
-    setToasts([...newToasts])
+    setToasts([newToasts])
   }, [toasts])
 
   const addToast = React.useCallback((toast) => {
