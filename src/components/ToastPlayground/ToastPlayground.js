@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import Button from '../Button';
 
@@ -28,6 +28,17 @@ function ToastPlayground() {
     setMessage('')
     setVariant(VARIANT_OPTIONS[0])
   }
+
+  useEffect(() => {
+    function handleEscapeKey(event) {
+      if (event.code === 'Escape') {
+        toastContext.removeAllToasts()
+      }
+    }
+    document.addEventListener('keydown', handleEscapeKey)
+
+    return () => document.removeEventListener('keydown', handleEscapeKey)
+  }, [toastContext])
 
   return (<div className={styles.wrapper}>
     <header>
