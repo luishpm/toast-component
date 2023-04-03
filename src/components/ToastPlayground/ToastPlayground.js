@@ -1,10 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 
 import Button from '../Button';
 
 import styles from './ToastPlayground.module.css';
 import {AlertOctagon, AlertTriangle, CheckCircle, Info} from "react-feather";
 import {ToastContext} from "../ToastProvider";
+import useKeydown from "../../hooks/use-keydown";
 
 const VARIANT_OPTIONS = [{variant: 'notice', icon: Info},
   {variant: 'warning', icon: AlertTriangle},
@@ -15,6 +16,12 @@ function ToastPlayground() {
   const [message, setMessage] = useState('')
   const [variant, setVariant] = useState(VARIANT_OPTIONS[0])
   const toastContext = React.useContext(ToastContext);
+
+  const handleEscape = React.useCallback(() => {
+    toastContext.removeAllToasts();
+  }, [toastContext]);
+
+  useKeydown('Escape', handleEscape);
 
   function onSubmit(e) {
     e.preventDefault();
@@ -28,17 +35,6 @@ function ToastPlayground() {
     setMessage('')
     setVariant(VARIANT_OPTIONS[0])
   }
-
-  useEffect(() => {
-    function handleEscapeKey(event) {
-      if (event.code === 'Escape') {
-        toastContext.removeAllToasts()
-      }
-    }
-    document.addEventListener('keydown', handleEscapeKey)
-
-    return () => document.removeEventListener('keydown', handleEscapeKey)
-  }, [toastContext])
 
   return (<div className={styles.wrapper}>
     <header>
